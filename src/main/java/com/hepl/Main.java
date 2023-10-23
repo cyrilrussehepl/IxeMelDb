@@ -6,13 +6,17 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+
 public class Main {
     public static final String RESOURCES_PATH = System.getProperty("user.dir") + "\\src\\main\\resources";
     private static final char DELIMITER = '‣';
 
 
     public static void main(String[] args) throws Exception {
-        ArrayList<Movie> movies = new ArrayList<>();
+        MovieList movieList = new MovieList();
         Movie movieBuffer;
         FileReader reader;
 
@@ -27,8 +31,10 @@ public class Main {
         // Lecture des films
         while ((movieBuffer = readMovie(reader)) != null) {
 //            System.out.println("id : " + movieBuffer.id + "\n");
-            movies.add(movieBuffer);
+            movieList.movies.add(movieBuffer);
         }
+
+        jaxbObjectToXML(movieList);
 
 //        System.out.println(movies.get(50).actors.get(0).toString());
 
@@ -126,5 +132,26 @@ public class Main {
             bloc += (char) c;
         }
         return bloc;
+    }
+
+    private static void jaxbObjectToXML(MovieList movie) {
+        try {
+            //Create JAXB Context
+            JAXBContext jaxbContext = JAXBContext.newInstance(MovieList.class);
+
+            //Create Marshaller
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+            //Required formatting??
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            //Store XML to File
+            File file = new File(RESOURCES_PATH + "\\movie.xml");
+
+            //Writes XML file to file-system
+            jaxbMarshaller.marshal(movie, file);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
     }
 }

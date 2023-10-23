@@ -56,4 +56,8 @@ public class Movie {
                 + "directors : " + "\n"
                 + "actors : " + "\n";
     }
+
+    public String toXML() {
+        return null;
+    }
 }
