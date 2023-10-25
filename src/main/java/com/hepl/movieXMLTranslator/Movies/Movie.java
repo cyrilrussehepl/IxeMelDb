@@ -1,4 +1,4 @@
-package com.hepl.Movies;
+package com.hepl.movieXMLTranslator.Movies;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import java.util.ArrayList;
@@ -18,9 +18,9 @@ public class Movie {
     public String posterPath;
     public int budget;
     public String tagline;
-    public ArrayList<Genre> genres;
-    public ArrayList<Person> directors;
-    public ArrayList<Actor> actors;
+    public ArrayList<Genre> genre;
+    public ArrayList<Person> director;
+    public ArrayList<Actor> actor;
 
     public enum MovieFields {
         ID,

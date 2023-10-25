@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!-- definition of simple elements -->
+    <xs:element name="title" type="xs:string"/>
+    <xs:element name="originalTitle" type="xs:string"/>
+    <xs:element name="releaseDate" type="xs:date"/>
+    <xs:element name="status" type="xs:string"/>
+    <xs:element name="voteAverage" type="xs:float"/>
+    <xs:element name="voteCount" type="xs:integer"/>
+    <xs:element name="runtime" type="xs:integer"/>
+    <xs:element name="certification" type="xs:string"/>
+    <xs:element name="posterPath" type="xs:string"/>
+    <xs:element name="budget" type="xs:integer"/>
+    <xs:element name="tagline" type="xs:string"/>
+    <xs:element name="id" type="xs:integer"/>
+    <xs:element name="name" type="xs:string"/>
+    <xs:element name="character" type="xs:string"/>
+
+    <!-- definition of attributes -->
+    <xs:attribute name="identifier" type="xs:string"/>
+    <xs:attribute name="count" type="xs:integer"/>
+
+    <!-- definition of complex elements -->
+    <xs:element name="genre">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="id"/>
+                <xs:element ref="name"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="director">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="id"/>
+                <xs:element ref="name"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="actor">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="id"/>
+                <xs:element ref="name"/>
+                <xs:element ref="character"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="movie">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="title"/>
+                <xs:element ref="originalTitle"/>
+                <xs:element ref="releaseDate"/>
+                <xs:element ref="status"/>
+                <xs:element ref="voteAverage"/>
+                <xs:element ref="voteCount"/>
+                <xs:element ref="runtime"/>
+                <xs:element ref="certification"/>
+                <xs:element ref="posterPath"/>
+                <xs:element ref="budget"/>
+                <xs:element ref="tagline"/>
+                <xs:element ref="genre"/>
+                <xs:element ref="director"/>
+                <xs:element ref="actor"/>
+            </xs:sequence>
+            <xs:attribute ref="identifier" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="movieList">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="movie"/>
+            </xs:sequence>
+            <xs:attribute ref="count" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

@@ -1,6 +1,6 @@
-package com.hepl;
+package com.hepl.movieXMLTranslator;
 
-import com.hepl.Movies.*;
+import com.hepl.movieXMLTranslator.Movies.*;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -10,7 +10,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
-public class Main {
+public class translatorMoviesTxtToXmlApp {
     public static final String RESOURCES_PATH = System.getProperty("user.dir") + "\\src\\main\\resources";
     private static final char DELIMITER = '‣';
 
@@ -30,9 +30,9 @@ public class Main {
 
         // Lecture des films
         while ((movieBuffer = readMovie(reader)) != null)
-            movieList.movies.add(movieBuffer);
+            movieList.movie.add(movieBuffer);
 
-        movieList.count = movieList.movies.size();
+        movieList.count = movieList.movie.size();
 
         jaxbObjectToXML(movieList);
 
@@ -67,9 +67,9 @@ public class Main {
                 case POSTER_PATH -> movie.posterPath = bloc;
                 case BUDGET -> movie.budget = Integer.parseInt(bloc);
                 case TAGLINE -> movie.tagline = bloc;
-                case GENRES -> movie.genres = convertBlocToGenres(bloc);
-                case DIRECTORS -> movie.directors = convertBlocToDirectors(bloc);
-                case ACTORS -> movie.actors = convertBlocToActors(bloc);
+                case GENRES -> movie.genre = convertBlocToGenres(bloc);
+                case DIRECTORS -> movie.director = convertBlocToDirectors(bloc);
+                case ACTORS -> movie.actor = convertBlocToActors(bloc);
             }
         }
         return movie;

@@ -1,4 +1,4 @@
-package com.hepl.Movies;
+package com.hepl.movieXMLTranslator.Movies;
 
 public class Actor extends Person {
     public String character;

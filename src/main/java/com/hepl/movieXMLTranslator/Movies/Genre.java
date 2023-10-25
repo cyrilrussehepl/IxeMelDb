@@ -1,20 +1,20 @@
-package com.hepl.Movies;
+package com.hepl.movieXMLTranslator.Movies;
 
-public class Person {
+public class Genre {
     public int id;
     public String name;
 
-    public Person(int id, String name) {
+    public Genre(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Person() {
+    public Genre() {
     }
 
     @Override
     public String toString() {
-        return "Person{" +
+        return "Genre{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
