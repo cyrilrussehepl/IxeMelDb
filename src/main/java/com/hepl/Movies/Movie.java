@@ -1,10 +1,12 @@
 package com.hepl.Movies;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Movie {
-    public int id;
+    @XmlAttribute
+    public int identifier;
     public String title;
     public String originalTitle;
     public Date releaseDate;
@@ -40,7 +42,7 @@ public class Movie {
 
     @Override
     public String toString() {
-        return "id : " + id + "\n"
+        return "id : " + identifier + "\n"
                 + "title : " + title + "\n"
                 + "originalTitle : " + originalTitle + "\n"
                 + "releaseDate : " + releaseDate + "\n"
@@ -55,9 +57,5 @@ public class Movie {
                 + "genres : " + "\n"
                 + "directors : " + "\n"
                 + "actors : " + "\n";
-    }
-
-    public String toXML() {
-        return null;
     }
 }

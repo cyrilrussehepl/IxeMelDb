@@ -29,14 +29,12 @@ public class Main {
         }
 
         // Lecture des films
-        while ((movieBuffer = readMovie(reader)) != null) {
-//            System.out.println("id : " + movieBuffer.id + "\n");
+        while ((movieBuffer = readMovie(reader)) != null)
             movieList.movies.add(movieBuffer);
-        }
+
+        movieList.count = movieList.movies.size();
 
         jaxbObjectToXML(movieList);
-
-//        System.out.println(movies.get(50).actors.get(0).toString());
 
         // Fermeture fichier
         reader.close();
@@ -57,7 +55,7 @@ public class Main {
             }
 
             switch (field) {
-                case ID -> movie.id = Integer.parseInt(bloc);
+                case ID -> movie.identifier = Integer.parseInt(bloc);
                 case TITLE -> movie.title = bloc;
                 case ORIGINAL_TITLE -> movie.originalTitle = bloc;
                 case RELEASED_DATE -> movie.releaseDate = new SimpleDateFormat("yyyy-mm-dd").parse(bloc);
@@ -119,7 +117,6 @@ public class Main {
                 actors.add(new Actor(Integer.parseInt(actorFields[0]), actorFields[1], null));
             }
         }
-
         return actors;
     }
 
@@ -138,16 +135,12 @@ public class Main {
         try {
             //Create JAXB Context
             JAXBContext jaxbContext = JAXBContext.newInstance(MovieList.class);
-
             //Create Marshaller
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-
             //Required formatting??
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-
             //Store XML to File
-            File file = new File(RESOURCES_PATH + "\\movie.xml");
-
+            File file = new File(RESOURCES_PATH + "\\movies.xml");
             //Writes XML file to file-system
             jaxbMarshaller.marshal(movie, file);
         } catch (JAXBException e) {

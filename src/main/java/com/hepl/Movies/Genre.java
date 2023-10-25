@@ -1,7 +1,6 @@
 package com.hepl.Movies;
 
 public class Genre {
-
     public int id;
     public String name;
 
@@ -19,9 +18,5 @@ public class Genre {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
-    }
-
-    public String toXML() {
-        return null;
     }
 }
