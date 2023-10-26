@@ -9,7 +9,7 @@
     <xs:element name="voteAverage" type="xs:float"/>
     <xs:element name="voteCount" type="xs:integer"/>
     <xs:element name="runtime" type="xs:integer"/>
-    <xs:element name="certification" type="xs:string"/>
+    <xs:element name="certification" type="certificationType"/>
     <xs:element name="posterPath" type="xs:string"/>
     <xs:element name="budget" type="xs:integer"/>
     <xs:element name="tagline" type="xs:string"/>
@@ -21,62 +21,69 @@
     <xs:attribute name="identifier" type="xs:string"/>
     <xs:attribute name="count" type="xs:integer"/>
 
+    <!-- definition of simple types -->
+    <xs:simpleType name="certificationType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="G"/>
+            <xs:enumeration value="PG"/>
+            <xs:enumeration value="PG-13"/>
+            <xs:enumeration value="R"/>
+            <xs:enumeration value="NC-17"/>
+            <xs:enumeration value="NR"/>
+            <xs:enumeration value="UR"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- definition of complex types -->
+    <xs:complexType name="defaultIdName">
+        <xs:sequence>
+            <xs:element ref="id"/>
+            <xs:element ref="name"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="actorType">
+        <xs:complexContent>
+            <xs:extension base="defaultIdName">
+                <xs:sequence>
+                    <xs:element ref="character" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
     <!-- definition of complex elements -->
-    <xs:element name="genre">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="id"/>
-                <xs:element ref="name"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-
-    <xs:element name="director">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="id"/>
-                <xs:element ref="name"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-
-    <xs:element name="actor">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="id"/>
-                <xs:element ref="name"/>
-                <xs:element ref="character"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
+    <xs:element name="genre" type="defaultIdName"/>
+    <xs:element name="director" type="defaultIdName"/>
+    <xs:element name="actor" type="actorType"/>
 
     <xs:element name="movie">
         <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="title"/>
-                <xs:element ref="originalTitle"/>
-                <xs:element ref="releaseDate"/>
-                <xs:element ref="status"/>
-                <xs:element ref="voteAverage"/>
-                <xs:element ref="voteCount"/>
-                <xs:element ref="runtime"/>
-                <xs:element ref="certification"/>
-                <xs:element ref="posterPath"/>
-                <xs:element ref="budget"/>
-                <xs:element ref="tagline"/>
-                <xs:element ref="genre"/>
-                <xs:element ref="director"/>
-                <xs:element ref="actor"/>
-            </xs:sequence>
+            <xs:choice maxOccurs="unbounded">
+                <xs:element ref="title" minOccurs="1" maxOccurs="1"/>
+                <xs:element ref="originalTitle" minOccurs="1" maxOccurs="1"/>
+                <xs:element ref="releaseDate" maxOccurs="1"/>
+                <xs:element ref="status" maxOccurs="1"/>
+                <xs:element ref="voteAverage" maxOccurs="1"/>
+                <xs:element ref="voteCount" maxOccurs="1"/>
+                <xs:element ref="runtime" maxOccurs="1"/>
+                <xs:element ref="certification" maxOccurs="1"/>
+                <xs:element ref="posterPath" maxOccurs="1"/>
+                <xs:element ref="budget" maxOccurs="1"/>
+                <xs:element ref="tagline" maxOccurs="1"/>
+                <xs:element ref="genre" maxOccurs="unbounded"/>
+                <xs:element ref="director" maxOccurs="unbounded"/>
+                <xs:element ref="actor" maxOccurs="unbounded"/>
+            </xs:choice>
             <xs:attribute ref="identifier" use="required"/>
         </xs:complexType>
     </xs:element>
 
     <xs:element name="movieList">
         <xs:complexType>
-            <xs:sequence>
+            <xs:choice maxOccurs="unbounded" minOccurs="0">
                 <xs:element ref="movie"/>
-            </xs:sequence>
+            </xs:choice>
             <xs:attribute ref="count" use="optional"/>
         </xs:complexType>
     </xs:element>

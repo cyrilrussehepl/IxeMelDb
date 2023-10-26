@@ -1,0 +1,24 @@
+<!ELEMENT id (#PCDATA)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT originalTitle (#PCDATA)>
+<!ELEMENT releaseDate (#PCDATA)>
+<!ELEMENT status (#PCDATA)>
+<!ELEMENT voteAverage (#PCDATA)>
+<!ELEMENT voteCount (#PCDATA)>
+<!ELEMENT runtime (#PCDATA)>
+<!ELEMENT certification (#PCDATA)>
+<!ELEMENT posterPath (#PCDATA)>
+<!ELEMENT budget (#PCDATA)>
+<!ELEMENT tagline (#PCDATA)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT character (#PCDATA)>
+
+<!ELEMENT genre (id, name)>
+<!ELEMENT director (id, name)>
+<!ELEMENT actor (id, name, character*)>
+
+<!ELEMENT movie (title, originalTitle, releaseDate?, status?, voteAverage?, voteCount?, runtime?, certification?, posterPath?, budget?, tagline?, genre*, director*, actor*)>
+<!ATTLIST movie identifier CDATA #REQUIRED>
+
+<!ELEMENT movieList (movie*)>
+<!ATTLIST movieList count CDATA #IMPLIED>

@@ -2,14 +2,13 @@ package com.hepl.movieXMLTranslator.Movies;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Movie {
     @XmlAttribute
     public int identifier;
     public String title;
     public String originalTitle;
-    public Date releaseDate;
+    public String releaseDate;
     public String status;
     public float voteAverage;
     public int voteCount;

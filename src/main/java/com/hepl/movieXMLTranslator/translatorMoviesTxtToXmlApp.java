@@ -3,7 +3,6 @@ package com.hepl.movieXMLTranslator;
 import com.hepl.movieXMLTranslator.Movies.*;
 
 import java.io.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.xml.bind.JAXBContext;
@@ -12,17 +11,17 @@ import javax.xml.bind.Marshaller;
 
 public class translatorMoviesTxtToXmlApp {
     public static final String RESOURCES_PATH = System.getProperty("user.dir") + "\\src\\main\\resources";
-    private static final char DELIMITER = '‣';
+    private static final String DELIMITER = "‣";
 
 
     public static void main(String[] args) throws Exception {
         MovieList movieList = new MovieList();
         Movie movieBuffer;
-        FileReader reader;
+        BufferedReader reader;
 
         // Ouverture fichier
         try {
-            reader = new FileReader(RESOURCES_PATH + "\\1000movies.txt");
+            reader = new BufferedReader(new FileReader(RESOURCES_PATH + "\\1000movies.txt"));
         } catch (Exception e) {
             e.printStackTrace();
             return;
@@ -34,43 +33,50 @@ public class translatorMoviesTxtToXmlApp {
 
         movieList.count = movieList.movie.size();
 
-        jaxbObjectToXML(movieList);
-
         // Fermeture fichier
         reader.close();
+
+        jaxbObjectToXML(movieList);
     }
 
-    // Permet de récupérer à l'aide d'un FileReader le prochain film contenu dans le fichier,
+    // Permet de récupérer à l'aide d'un BufferedReader le prochain film contenu dans le fichier,
     // renvoie un objet Movie contenant toutes les infos du film lues
-    private static Movie readMovie(FileReader reader) throws Exception {
-        String bloc;
+    private static Movie readMovie(BufferedReader reader) throws Exception {
         Movie movie = new Movie();
+        int i = 0;
+        String line = reader.readLine();
+        if (line == null || line.isEmpty())
+            return null;
+        String[] blocs = line.split(DELIMITER);
 
         for (Movie.MovieFields field : Movie.MovieFields.values()) {
-            bloc = getNextBloc(reader);
-            if (bloc == null) return null;
-            if (bloc.isEmpty()) {
-                if (field == Movie.MovieFields.ID) return null;
+            if (i == blocs.length)
+                break;
+
+            if (blocs[i].isEmpty()) {
+                if (field == Movie.MovieFields.ID)
+                    break;
                 else continue;
             }
 
             switch (field) {
-                case ID -> movie.identifier = Integer.parseInt(bloc);
-                case TITLE -> movie.title = bloc;
-                case ORIGINAL_TITLE -> movie.originalTitle = bloc;
-                case RELEASED_DATE -> movie.releaseDate = new SimpleDateFormat("yyyy-mm-dd").parse(bloc);
-                case STATUS -> movie.status = bloc;
-                case VOTE_AVERAGE -> movie.voteAverage = Float.parseFloat(bloc);
-                case VOTE_COUNT -> movie.voteCount = Integer.parseInt(bloc);
-                case RUNTIME -> movie.runtime = Integer.parseInt(bloc);
-                case CERTIFICATION -> movie.certification = bloc;
-                case POSTER_PATH -> movie.posterPath = bloc;
-                case BUDGET -> movie.budget = Integer.parseInt(bloc);
-                case TAGLINE -> movie.tagline = bloc;
-                case GENRES -> movie.genre = convertBlocToGenres(bloc);
-                case DIRECTORS -> movie.director = convertBlocToDirectors(bloc);
-                case ACTORS -> movie.actor = convertBlocToActors(bloc);
+                case ID -> movie.identifier = Integer.parseInt(blocs[i]);
+                case TITLE -> movie.title = blocs[i];
+                case ORIGINAL_TITLE -> movie.originalTitle = blocs[i];
+                case RELEASED_DATE -> movie.releaseDate = blocs[i];
+                case STATUS -> movie.status = blocs[i];
+                case VOTE_AVERAGE -> movie.voteAverage = Float.parseFloat(blocs[i]);
+                case VOTE_COUNT -> movie.voteCount = Integer.parseInt(blocs[i]);
+                case RUNTIME -> movie.runtime = Integer.parseInt(blocs[i]);
+                case CERTIFICATION -> movie.certification = blocs[i];
+                case POSTER_PATH -> movie.posterPath = blocs[i];
+                case BUDGET -> movie.budget = Integer.parseInt(blocs[i]);
+                case TAGLINE -> movie.tagline = blocs[i];
+                case GENRES -> movie.genre = convertBlocToGenres(blocs[i]);
+                case DIRECTORS -> movie.director = convertBlocToDirectors(blocs[i]);
+                case ACTORS -> movie.actor = convertBlocToActors(blocs[i]);
             }
+            i++;
         }
         return movie;
     }
@@ -83,7 +89,12 @@ public class translatorMoviesTxtToXmlApp {
         String[] genresString = bloc.split("‖");
         for (String genre : genresString) {
             String[] genreFields = genre.split("․");
-            genres.add(new Genre(Integer.parseInt(genreFields[0]), genreFields[1]));
+            try {
+                genres.add(new Genre(Integer.parseInt(genreFields[0]), genreFields[1]));
+
+            } catch (NumberFormatException ignored) {
+
+            }
         }
 
         return genres;
@@ -114,37 +125,33 @@ public class translatorMoviesTxtToXmlApp {
             try {
                 actors.add(new Actor(Integer.parseInt(actorFields[0]), actorFields[1], actorFields[2]));
             } catch (IndexOutOfBoundsException e) {
-                actors.add(new Actor(Integer.parseInt(actorFields[0]), actorFields[1], null));
+                actors.add(new Actor(Integer.parseInt(actorFields[0]), actorFields[1]));
+            } catch (NumberFormatException ignored) {
+
             }
         }
         return actors;
     }
 
-    // A partir d'un Filereader, lis un "bloc" correspondant à un champ d'un film,
-    // délimité par ce char : '‣'
-    private static String getNextBloc(FileReader reader) throws IOException {
-        int c;
-        String bloc = new String("");
-        while ((c = reader.read()) != (int) DELIMITER && c != -1 && c != (int) '\n') {
-            bloc += (char) c;
-        }
-        return bloc;
-    }
-
     private static void jaxbObjectToXML(MovieList movie) {
         try {
-            //Create JAXB Context
-            JAXBContext jaxbContext = JAXBContext.newInstance(MovieList.class);
-            //Create Marshaller
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-            //Required formatting??
+            Marshaller jaxbMarshaller = JAXBContext.newInstance(MovieList.class).createMarshaller();
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            //Store XML to File
-            File file = new File(RESOURCES_PATH + "\\movies.xml");
-            //Writes XML file to file-system
-            jaxbMarshaller.marshal(movie, file);
+
+            // Ecrit contenu du fichier xml que l'on va créer dans un String
+            // et on y ajoute un doctype qui spécifie le fichier dtd associé
+            StringWriter xmlStringWriter = new StringWriter();
+            jaxbMarshaller.marshal(movie, xmlStringWriter);
+            String doctype = "<!DOCTYPE movieList SYSTEM 'movies.dtd'>";
+            String xmlWithDoctype = xmlStringWriter.toString().replaceFirst(">", ">\n" + doctype);
+
+            // Ecrit le string dans le fichier xml
+            BufferedWriter writer = new BufferedWriter(new FileWriter(RESOURCES_PATH + "\\movies.xml"));
+            writer.write(xmlWithDoctype);
         } catch (JAXBException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("Error while trying to write content in movies.xml");
         }
     }
 }
