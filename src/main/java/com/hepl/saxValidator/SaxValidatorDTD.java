@@ -1,4 +1,4 @@
-package com.hepl.validator;
+package com.hepl.saxValidator;
 
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
@@ -7,7 +7,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.SAXException;
 
-public class ValidatorDTD {
+public class SaxValidatorDTD {
     public static final String RESOURCES_PATH = System.getProperty("user.dir") + "\\src\\main\\resources";
     public static final String XML_FILE = RESOURCES_PATH + "\\movies.xml";
 

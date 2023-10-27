@@ -143,11 +143,14 @@ public class translatorMoviesTxtToXmlApp {
             StringWriter xmlStringWriter = new StringWriter();
             jaxbMarshaller.marshal(movie, xmlStringWriter);
             String doctype = "<!DOCTYPE movieList SYSTEM 'movies.dtd'>";
-            String xmlWithDoctype = xmlStringWriter.toString().replaceFirst(">", ">\n" + doctype);
+            String xmlWithDoctype = xmlStringWriter.toString().replaceFirst("yes", "no");
+            xmlWithDoctype = xmlWithDoctype.replaceFirst(">", ">\n" + doctype);
 
             // Ecrit le string dans le fichier xml
             BufferedWriter writer = new BufferedWriter(new FileWriter(RESOURCES_PATH + "\\movies.xml"));
             writer.write(xmlWithDoctype);
+            writer.flush();
+            writer.close();
         } catch (JAXBException e) {
             e.printStackTrace();
         } catch (IOException e) {
