@@ -2,14 +2,15 @@
 ## :black_medium_square: Conversion vers XML
 * Lecture fichier films :heavy_check_mark:
 * Transformation xml :heavy_check_mark:
-## :black_medium_square: Strcuture du XML
+## :black_medium_square: Structure du XML
 * Création XSD :heavy_check_mark:
 * Création DTD :heavy_check_mark:
 ## :black_medium_square: Validation du XML
-* validation avec SAX :heavy_check_mark:
-* validation avec DOM :heavy_check_mark:
-* Evaluer les performances
-* Manipulation à l'aide du parser
+* Validation avec SAX :heavy_check_mark:
+* Validation avec DOM :heavy_check_mark:
+* Exception Handler personnalisé
+* Evaluation des performances entre SAX et DOM validation
+* Manipulation à l'aide du parser :heavy_check_mark:
 ## :black_medium_square: Création site web avec XSLT
 * Affichage des informations
 * Meilleur structure sans utiliser de css, js, etc

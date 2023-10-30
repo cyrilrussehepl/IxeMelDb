@@ -33,7 +33,7 @@ public class Utils {
             DocumentBuilder builder = factory.newDocumentBuilder();
             xml = builder.parse(new File(filename));
             Element root = xml.getDocumentElement();
-            System.out.println("root element : "+root.getNodeName());
+            System.out.println("Root element : "+root.getNodeName());
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
