@@ -25,26 +25,28 @@ public class DomValidatorXSD {
         System.out.println("Validation OK");
 
         // Compte nombre balise <certification>PG-13</certification>----------------------------------------------------
-        int nbCertifPG13 = 0;
-        NodeList certifications = document.getElementsByTagName("certification");
-
-        // Parcours de tous les noeuds certification
-        for (int i = 0; i < certifications.getLength(); i++) {
-            // Récupération des noeuds enfants certification
-            NodeList child = certifications.item(i).getChildNodes();
-            // Normalement au nombre de 1 mais pour être sur, parcours dans une boucle
-            for (int j = 0; j < child.getLength(); j++) {
-                Node node = child.item(j);
-                // nodetype 3 = text
-                if (node.getNodeType() == 3 && node.getNodeValue().equals("PG-13"))
-                    nbCertifPG13++;
-            }
-        }
-        System.out.println("Calcul -> nbCertifPG13 = " + nbCertifPG13);
+        // Mais vu que l'on parcourt tous les films pour le classement des 10 meilleures notes, autant le faire en même temps
+//        int nbCertificationPG13 = 0;
+//        NodeList certifications = document.getElementsByTagName("certification");
+//
+//        // Parcours de tous les nœuds certification
+//        for (int i = 0; i < certifications.getLength(); i++) {
+//            // Récupération des nœuds enfants certification
+//            NodeList child = certifications.item(i).getChildNodes();
+//            // Normalement au nombre de 1, mais pour être sûr, parcours dans une boucle
+//            for (int j = 0; j < child.getLength(); j++) {
+//                Node node = child.item(j);
+//                // node-type 3 = text
+//                if (node.getNodeType() == 3 && node.getNodeValue().equals("PG-13"))
+//                    nbCertificationPG13++;
+//            }
+//        }
+//        System.out.println("Calcul -> nbCertificationPG13 = " + nbCertificationPG13);
 
         // Répertorie les 10 films les mieux notés----------------------------------------------------------------------
 
         LinkedList<MovieRate> tenBestRatedMovies = new LinkedList<>();
+        int nbCertificationPG13 = 0;
 
         NodeList movies = document.getElementsByTagName("movie");
         for (int i = 0; i < movies.getLength(); i++) {
@@ -56,8 +58,8 @@ public class DomValidatorXSD {
                     movieRateBuffer.title = child.getChildNodes().item(0).getNodeValue();
                 else if (child.getNodeName().equals("voteAverage")) {
                     movieRateBuffer.voteAverage = Float.parseFloat(child.getChildNodes().item(0).getNodeValue());
-                    break;
-                }
+                } else if (child.getNodeName().equals("certification") && child.getChildNodes().item(0).getNodeValue().equals("PG-13"))
+                    nbCertificationPG13++;
             }
 
             // Ajoute le film dans la liste chainée si dans le top10
@@ -78,7 +80,7 @@ public class DomValidatorXSD {
                 }
             }
 
-            // Si pas ajouté alors il arrive en dernier
+            // Si pas ajouté alors, il arrive en dernier
             if (!added)
                 tenBestRatedMovies.addLast(movieRateBuffer);
             // Retire le dernier de la liste si plus de 10 film
@@ -86,6 +88,8 @@ public class DomValidatorXSD {
                 tenBestRatedMovies.removeLast();
         }
 
+        // Affiche le nombre de films dont la certification est PG-13
+        System.out.println("Nombre de Certification \"PG13\" = " + nbCertificationPG13);
 
         // Affiche titre et note des 10 meilleurs films
         System.out.println("\n10 best rated movies : ");
