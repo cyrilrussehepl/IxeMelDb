@@ -11,7 +11,7 @@
 * Exception Handler personnalisé
 * Evaluation des performances entre SAX et DOM validation
 * Manipulation à l'aide du parser :heavy_check_mark:
-## :black_medium_square: Création site web avec XSLT
-* Affichage des informations
+## :black_medium_square: Création [site web](https://hepl-php.000webhostapp.com/) avec XSLT
+* Affichage des informations :heavy_check_mark:
 * Meilleur structure sans utiliser de css, js, etc
 * Amélioration avec css, js, etc
