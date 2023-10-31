@@ -27,8 +27,7 @@ public class Utils {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         Document xml = null;
         try {
-            if (validateDTD)
-                factory.setValidating(true);
+            factory.setValidating(validateDTD);
 
             DocumentBuilder builder = factory.newDocumentBuilder();
             xml = builder.parse(new File(filename));

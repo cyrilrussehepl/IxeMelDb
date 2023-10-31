@@ -49,7 +49,8 @@ public class DomValidatorXSD {
         int nbCertificationPG13 = 0;
 
         NodeList movies = document.getElementsByTagName("movie");
-        for (int i = 0; i < movies.getLength(); i++) {
+        int moviesLength = movies.getLength();
+        for (int i = 0; i < moviesLength; i++) {
             NodeList children = movies.item(i).getChildNodes();
             MovieRate movieRateBuffer = new MovieRate();
             for (int j = 0; j < children.getLength(); j++) {
