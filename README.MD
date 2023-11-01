@@ -8,7 +8,7 @@
 ## :black_medium_square: Validation du XML
 * Validation avec SAX :heavy_check_mark:
 * Validation avec DOM :heavy_check_mark:
-* Exception Handler personnalisé
+* Exception Handler personnalisé :white_check_mark:
 * Evaluation des performances entre SAX et DOM validation :heavy_check_mark:
 * Manipulation à l'aide du parser :heavy_check_mark:
 ## :black_medium_square: Création [site web](https://hepl-php.000webhostapp.com/) avec XSLT
