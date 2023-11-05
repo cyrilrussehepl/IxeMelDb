@@ -19,6 +19,7 @@
                         <th>posterPath</th>
                         <th>budget</th>
                         <th>tagline</th>
+                        <th>genres</th>
                     </tr>
                     <xsl:for-each select="movieList/movie">
                         <tr>
@@ -54,6 +55,33 @@
                             </td>
                             <td>
                                 <xsl:value-of select="tagline"/>
+                            </td>
+                            <td>
+                                <ul>
+                                    <xsl:for-each select="genre">
+                                        <li>
+                                            <xsl:value-of select="name"/>
+                                        </li>
+                                    </xsl:for-each>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <xsl:for-each select="director">
+                                        <li>
+                                            <xsl:value-of select="name"/>
+                                        </li>
+                                    </xsl:for-each>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <xsl:for-each select="actor">
+                                        <li>
+                                            <xsl:value-of select="name"/>
+                                        </li>
+                                    </xsl:for-each>
+                                </ul>
                             </td>
                         </tr>
                     </xsl:for-each>

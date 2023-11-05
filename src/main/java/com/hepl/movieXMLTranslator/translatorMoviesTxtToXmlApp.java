@@ -101,7 +101,7 @@ public class translatorMoviesTxtToXmlApp {
     }
 
     // Conversion depuis un bloc (String correspondant à un champ du film en train d'être lu)
-    // vers une liste d'objet Person -> correspond aux directeurs
+    // vers une liste d'objet Person → correspond aux directeurs
     private static ArrayList<Person> convertBlocToDirectors(String bloc) {
         ArrayList<Person> directors = new ArrayList<>();
 
@@ -138,7 +138,7 @@ public class translatorMoviesTxtToXmlApp {
             Marshaller jaxbMarshaller = JAXBContext.newInstance(MovieList.class).createMarshaller();
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-            // Ecrit contenu du fichier xml que l'on va créer dans un String
+            // écrit contenu du fichier xml que l'on va créer dans un String
             // et on y ajoute un doctype qui spécifie le fichier dtd associé
             StringWriter xmlStringWriter = new StringWriter();
             jaxbMarshaller.marshal(movie, xmlStringWriter);
@@ -146,7 +146,7 @@ public class translatorMoviesTxtToXmlApp {
             String xmlWithDoctype = xmlStringWriter.toString().replaceFirst("yes", "no");
             xmlWithDoctype = xmlWithDoctype.replaceFirst(">", ">\n" + doctype);
 
-            // Ecrit le string dans le fichier xml
+            // écrit le string dans le fichier xml
             BufferedWriter writer = new BufferedWriter(new FileWriter(RESOURCES_PATH + "\\movies.xml"));
             writer.write(xmlWithDoctype);
             writer.flush();
